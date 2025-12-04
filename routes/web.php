@@ -14,26 +14,12 @@ use App\Http\Controllers\FrontHomeController;
 |
 */
 
-
+//front routes
 route::prefix('front')->name('front.')->group(function () {
-    route::get('/', FrontHomeController::class)->name('index');
+    route::get('/', FrontHomeController::class)->middleware('auth')->name('index');
     route::view ('/login', 'front.auth.login')->name('login');
     route::view ('/register', 'front.auth.register')->name('register');
     route::view ('/forget-password', 'front.auth.forget-password')->name('forget-password');
-});
-
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';
