@@ -4,6 +4,9 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontHomeController;
 use App\Http\Controllers\Back\BackHomeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -25,10 +28,20 @@ route::prefix('front')->name('front.')->group(function () {
 
 require __DIR__.'/auth.php';
 
-//admin routes
+//back design routes
 route::prefix('back')->name('back.')->group(function () {
     route::get('/', BackHomeController::class)->middleware('admin')->name('index');
-    route::view ('/login', 'back.auth.login')->name('login');
-    route::view ('/register', 'back.auth.register')->name('register');
-    route::view ('/forget-password', 'back.auth.forget-password')->name('forget-password');
+
+
+    ##-----------------------------------admins routes-----------------------------------##
+    route::resource('admins', AdminController::class)->middleware('admin')->names('admins');
+
+    ##-----------------------------------roles routes-----------------------------------##
+    route::resource('roles', RoleController::class)->middleware('admin')->names('roles');
+
+    ##-----------------------------------users routes-----------------------------------##
+    route::resource('users', UserController::class)->middleware('admin')->names('users');
+
+    require __DIR__.'/adminAuth.php';
 });
+

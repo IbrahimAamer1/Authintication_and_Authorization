@@ -30,7 +30,7 @@
 
 
               <x-auth-session-status class="mb-4" :status="session('status')" />
-              <form id="formAuthentication" class="mb-3" action="{{ route('password.store') }}" method="POST">
+              <form id="formAuthentication" class="mb-3" action="{{ route('back.password.store') }}" method="POST">
                 <input type="hidden" name="token" value="{{ $request->route('token') }}">
                 @csrf
                 <div class="mb-3">
@@ -41,8 +41,8 @@
                     id="email"
                     name="email" 
                     placeholder="Enter your email"
-                    autofocus 
-                    value="{{ old('email', $request->email) }}" readonly
+                    
+                    value="{{ old('email', $request->email)  }}" 
                   />
                   <x-input-error :messages="$errors->get('email')" class="mt-2" />
                 </div>

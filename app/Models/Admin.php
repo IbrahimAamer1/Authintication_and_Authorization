@@ -7,9 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Notifications\UpdatePasswordNotification;
+use App\Notifications\AdminPasswordNotification;
+use Spatie\Permission\Traits\HasRoles;
 class Admin extends Authenticatable implements MustVerifyEmail
 {
+    use HasRoles;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -42,6 +44,9 @@ class Admin extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-  
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new AdminPasswordNotification($token));
+    }
 }
 

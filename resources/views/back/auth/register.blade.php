@@ -29,7 +29,7 @@
               <h4 class="mb-2">Adventure starts here 🚀</h4>
               <p class="mb-4">Make your app management easy and fun!</p>
 
-              <form id="formAuthentication" class="mb-3" action="{{ route('register') }}" method="POST">
+              <form id="formAuthentication" class="mb-3" action="{{ route('back.register') }}" method="POST">
                 @csrf
 
                 <!-- Name -->
