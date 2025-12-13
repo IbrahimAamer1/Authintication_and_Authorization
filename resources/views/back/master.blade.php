@@ -1,52 +1,52 @@
 <!DOCTYPE html>
-
 <html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default"
-data-assets-path="{{ asset('assets-back') }}/" data-template="vertical-menu-template-free">
+    data-assets-path="{{ asset('assets-back') }}/" data-template="vertical-menu-template-free">
 
-@include('back.partials.head')
+    @php
+        $assetsPath = 'assets-back';
+    @endphp
+    @include('partials.shared.head')
 
-<body>
-<!-- Layout wrapper -->
-<div class="layout-wrapper layout-content-navbar">
-<div class="layout-container">
+    <body>
+        <!-- Layout wrapper -->
+        <div class="layout-wrapper layout-content-navbar">
+            <div class="layout-container">
+                @include('partials.back.sidebar')
 
-@include('back.partials.sidebar')
+                <!-- Layout container -->
+                <div class="layout-page">
+                    @include('partials.back.navbar')
 
-<!-- Layout container -->
-<div class="layout-page">
-@include('back.partials.navbar')
+                    <!-- Content wrapper -->
+                    <div class="content-wrapper">
+                        <!-- Content -->
+                        <div class="container-xxl flex-grow-1 container-p-y">
+                            @include('partials.shared.alerts')
+                            @include('partials.back.breadcrumbs')
+                            @yield('content')
+                        </div>
+                        <!-- / Content -->
 
-<!-- Content wrapper -->
-<div class="content-wrapper">
-<!-- Content -->
+                        @include('partials.back.footer')
+                        <div class="content-backdrop fade"></div>
+                    </div>
+                    <!-- Content wrapper -->
+                </div>
+                <!-- / Layout page -->
+            </div>
 
-<div class="container-xxl flex-grow-1 container-p-y">
-@yield('content')
-</div>
-<!-- / Content -->
+            <!-- Overlay -->
+            <div class="layout-overlay layout-menu-toggle"></div>
+        </div>
+        <!-- / Layout wrapper -->
 
-@include('back.partials.footer')
+        @include('partials.shared.modals.mainModal')
+        @include('partials.shared.modals.deleteModal')
 
-
-<div class="content-backdrop fade"></div>
-</div>
-<!-- Content wrapper -->
-</div>
-<!-- / Layout page -->
-</div>
-
-<!-- Overlay -->
-<div class="layout-overlay layout-menu-toggle"></div>
-</div>
-<!-- / Layout wrapper -->
-
-
-    @include('back.modals.mainModal')
-    @include('back.modals.deleteModal')
-@include('back.partials.scripts')
-
-@stack('scripts')
-
-</body>
-
+        @php
+            $assetsPath = 'assets-back';
+        @endphp
+        @include('partials.shared.scripts')
+        @stack('scripts')
+    </body>
 </html>

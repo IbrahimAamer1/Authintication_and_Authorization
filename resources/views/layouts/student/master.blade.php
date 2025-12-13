@@ -11,11 +11,11 @@
         <!-- Layout wrapper -->
         <div class="layout-wrapper layout-content-navbar">
             <div class="layout-container">
-                @include('front.partials.sidebar')
+                @include('partials.student.sidebar')
 
                 <!-- Layout container -->
                 <div class="layout-page">
-                    @include('front.partials.navbar')
+                    @include('partials.student.navbar')
 
                     <!-- Content wrapper -->
                     <div class="content-wrapper">
@@ -26,7 +26,7 @@
                         </div>
                         <!-- / Content -->
 
-                        @include('front.partials.footer')
+                        @include('partials.back.footer')
                         <div class="content-backdrop fade"></div>
                     </div>
                     <!-- Content wrapper -->
@@ -48,3 +48,4 @@
         @include('partials.shared.scripts')
     </body>
 </html>
+

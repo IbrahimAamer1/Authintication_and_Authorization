@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+
 // use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-
+use Illuminate\Support\Facades\Gate;
+use App\Models\Admin;
 class AuthServiceProvider extends ServiceProvider
 {
     /**
@@ -23,6 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
-    }
+        Gate::define('add_user', function (Admin $admin) {
+                return $admin->hasPermissionTo('add_user');
+            });
+        }
 }

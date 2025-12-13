@@ -27,5 +27,7 @@ class PermissionSeeder extends Seeder
                         'guard_name' => 'admin',
                         ]);
         }
+        
     }
+    
 }

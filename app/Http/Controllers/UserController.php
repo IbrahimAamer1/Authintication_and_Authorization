@@ -6,18 +6,19 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
-
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Policy;
 class UserController extends Controller
 {
     const DIRECTORY = 'back.users';    
 
     function __construct()
     {
-        $this->middleware('check_permission:list_users')->only(['index', 'getData']);
-        $this->middleware('check_permission:add_users')->only(['create', 'store']);
-        $this->middleware('check_permission:show_users')->only(['show']);
-        $this->middleware('check_permission:edit_users')->only(['edit', 'update']);
-        $this->middleware('check_permission:delete_users')->only(['destroy']);
+     /*    $this->middleware('check_permission:add_user')->only(['create', 'store']);
+        $this->middleware('check_permission:show_user')->only(['show']);
+        $this->middleware('check_permission:edit_user')->only(['edit', 'update']);
+        $this->middleware('check_permission:delete_user')->only(['destroy']); */
     }
 
     /**
@@ -73,10 +74,16 @@ class UserController extends Controller
      */
     public function create()
     {
+        // if user does not have permission to create user, abort the request
+       // Gate::forUser(Auth::guard('admin')->user())->authorize('add_user');
+
+       if(Auth::guard('admin')->user()->cannot('add_user')) {
+        abort(403);
+       }
         return view(self::DIRECTORY.".create", get_defined_vars());
     }
 
-    /**
+    /** 
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\StoreUserRequest  $request

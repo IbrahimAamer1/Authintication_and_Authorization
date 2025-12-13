@@ -3,39 +3,46 @@
 
     <div id="add_form_messages"></div>
 
-    {{-- MODIFICATIONS FROM HERE --}}
     <div class="row">
-        <div class="form-group col-12 col-md-6">
-            <label class="form-label">{{ __('lang.name') }}</label>
-            <input type="text" class="border form-control" name="name"
-                placeholder="{{ __('lang.please_enter') }} {{ __('lang.name') }}...">
-        </div>
+        @include('components.forms.input', [
+            'name' => 'name',
+            'label' => __('lang.name'),
+            'value' => old('name'),
+            'required' => true,
+            'class' => 'col-12 col-md-6'
+        ])
 
-        <div class="form-group col-12 col-md-6">
-            <label class="form-label">{{ __('lang.email') }}</label>
-            <input type="email" class="border form-control" name="email"
-                placeholder="{{ __('lang.please_enter') }} {{ __('lang.email') }}...">
-        </div>
+        @include('components.forms.input', [
+            'name' => 'email',
+            'type' => 'email',
+            'label' => __('lang.email'),
+            'value' => old('email'),
+            'required' => true,
+            'class' => 'col-12 col-md-6'
+        ])
 
-        <div class="form-group col-12 col-md-6">
-            <label class="form-label">{{ __('lang.password') }}</label>
-            <input type="password" class="border form-control" name="password"
-                placeholder="{{ __('lang.please_enter') }} {{ __('lang.password') }}...">
-        </div>
+        @include('components.forms.input', [
+            'name' => 'password',
+            'type' => 'password',
+            'label' => __('lang.password'),
+            'required' => true,
+            'class' => 'col-12 col-md-6'
+        ])
 
-        <div class="form-group col-12 col-md-6">
-            <label class="form-label">{{ __('lang.password_confirmation') }}</label>
-            <input type="password" class="border form-control" name="password_confirmation"
-                placeholder="{{ __('lang.please_enter') }} {{ __('lang.password_confirmation') }}...">
-        </div>
+        @include('components.forms.input', [
+            'name' => 'password_confirmation',
+            'type' => 'password',
+            'label' => __('lang.password_confirmation'),
+            'required' => true,
+            'class' => 'col-12 col-md-6'
+        ])
     </div>
-    {{-- MODIFICATIONS TO HERE --}}
 
     <div class="form-group float-right mt-2">
-        <button type="button" class="btn btn-light" data-dismiss="modal">{{ __('lang.close') }}</button>
+        <button type="button" class="btn btn-light" data-bs-dismiss="modal">{{ __('lang.close') }}</button>
         <button type="button" class="btn btn-primary" id="submit_add_form">
             {{ __('lang.submit') }}
-            @include('back.modals.spinner')
+            @include('partials.shared.modals.spinner')
         </button>
     </div>
 </form>

@@ -48,3 +48,4 @@
         @include('partials.shared.scripts')
     </body>
 </html>
+
