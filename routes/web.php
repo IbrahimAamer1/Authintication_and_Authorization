@@ -7,6 +7,7 @@ use App\Http\Controllers\Back\BackHomeController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Back\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +42,9 @@ route::prefix('back')->name('back.')->group(function () {
 
     ##-----------------------------------users routes-----------------------------------##
     route::resource('users', UserController::class)->middleware('admin')->names('users');
+
+    ##-----------------------------------categories routes-----------------------------------##
+    route::resource('categories', CategoryController::class)->middleware('admin')->names('categories');
 
     require __DIR__.'/adminAuth.php';
 });

@@ -85,7 +85,7 @@
 
         <!-- Categories -->
         <li class="menu-item @yield('categories_active', '')">
-            <a href="#" class="menu-link">
+            <a href="{{ route('back.categories.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-category"></i>
                 <div data-i18n="Categories">Categories</div>
             </a>

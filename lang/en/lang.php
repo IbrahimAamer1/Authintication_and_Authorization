@@ -86,5 +86,37 @@ return [
     'delete_admins' => 'Delete Admins',
     'show_admins' => 'Show Admins',
     'list_admins' => 'List Admins',
-    
+    // Categories Permissions
+    'add_categories' => 'Add Categories',
+    'edit_categories' => 'Edit Categories',
+    'delete_categories' => 'Delete Categories',
+    'show_categories' => 'Show Categories',
+    'list_categories' => 'List Categories',
+
+    // Categories
+    'categories' => 'Categories',
+    'add_new_category' => 'Add New Category',
+    'edit_category' => 'Edit Category',
+    'delete_category' => 'Delete Category',
+    'show_category' => 'Show Category',
+    'list_category' => 'List Category',
+    'manage_categories' => 'Manage Categories',
+    'create_category' => 'Create Category',
+
+    'no_data_available' => 'No data available',
+    'sort_order' => 'Sort Order',
+    'status' => 'Status',
+    'created_at' => 'Created At',
+    'updated_at' => 'Updated At',
+    'created_by' => 'Created By',
+    'updated_by' => 'Updated By',
+    'created_by_id' => 'Created By ID',
+    'updated_by_id' => 'Updated By ID',
+    'created_by_name' => 'Created By Name',
+    'description' => 'Description',
+    'image' => 'Image',
+    'is_active' => 'Active',
+    'active' => 'Active',
+    'inactive' => 'Inactive',
+    'all' => 'All',
 ];
