@@ -77,13 +77,7 @@ class CategoryController extends Controller
         return view(self::DIRECTORY . ".create", get_defined_vars());
     }
 
-    /**
-     * 
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\StoreCategoryRequest  $request
-     * @return \Illuminate\Http\Response
-     */
+  
     public function store(StoreCategoryRequest $request)
     {
         $data = $request->validated();
@@ -102,12 +96,7 @@ class CategoryController extends Controller
         return response()->json(['success' => __('messages.sent') ?? 'Category created successfully']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
+ 
     public function show(Category $category)
     {
         return view(self::DIRECTORY . ".show", \get_defined_vars());
@@ -124,13 +113,6 @@ class CategoryController extends Controller
         return view(self::DIRECTORY . ".edit", \get_defined_vars());
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateCategoryRequest  $request
-     * @param  \App\Models\Category  $category
-     * @return \Illuminate\Http\Response
-     */
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $data = $request->validated();

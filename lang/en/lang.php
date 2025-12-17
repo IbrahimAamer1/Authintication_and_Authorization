@@ -119,4 +119,27 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'all' => 'All',
+
+    // Courses
+    'courses' => 'Courses',
+    'add_new_course' => 'Add New Course',
+    'edit_course' => 'Edit Course',
+    'delete_course' => 'Delete Course',
+    'show_course' => 'Show Course',
+    'list_course' => 'List Course',
+    'manage_courses' => 'Manage Courses',
+
+    'title' => 'Title',
+    'slug' => 'Slug',
+    'category' => 'Category',
+    'instructor' => 'Instructor',
+    'price' => 'Price',
+    'discount_price' => 'Discount Price',
+    'level' => 'Level',
+    'language' => 'Language',
+    'duration' => 'Duration',
+    'meta_title' => 'Meta Title',
+    'meta_description' => 'Meta Description',
+    'meta_title_help' => 'Meta Title for search engines',
+    'meta_description_help' => 'Meta Description for search engines',
 ];

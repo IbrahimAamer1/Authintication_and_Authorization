@@ -93,11 +93,12 @@
 
         <!-- Courses -->
         <li class="menu-item @yield('courses_active', '')">
-            <a href="#" class="menu-link">
+            <a href="{{ route('back.courses.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-book"></i>
                 <div data-i18n="Courses">Courses</div>
             </a>
         </li>
+        
     </ul>
 </aside>
 <!-- / Menu -->
