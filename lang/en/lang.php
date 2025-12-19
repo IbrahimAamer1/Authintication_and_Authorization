@@ -66,18 +66,6 @@ return [
     'edit_permission' => 'Edit Permission',
     'delete_permission' => 'Delete Permission',
     'show_permission' => 'Show Permission',
-    
-    // User Permissions
-    'add_user' => 'Add User',
-    'show_user' => 'Show User',
-    'edit_user' => 'Edit User',
-    'delete_user' => 'Delete User',
-    
-    // Role Permissions
-    'add_roles' => 'Add Roles',
-    'edit_roles' => 'Edit Roles',
-    'delete_roles' => 'Delete Roles',
-    'show_roles' => 'Show Roles',
     'list_roles' => 'List Roles',
     
     // Admin Permissions
@@ -138,8 +126,4 @@ return [
     'level' => 'Level',
     'language' => 'Language',
     'duration' => 'Duration',
-    'meta_title' => 'Meta Title',
-    'meta_description' => 'Meta Description',
-    'meta_title_help' => 'Meta Title for search engines',
-    'meta_description_help' => 'Meta Description for search engines',
 ];

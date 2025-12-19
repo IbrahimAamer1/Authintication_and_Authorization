@@ -23,6 +23,12 @@ class PermissionSeeder extends Seeder
             'show_category',
             'edit_category',
             'delete_category',
+            'manage_lessons',
+            'create_lesson',
+            'show_lesson',
+            'edit_lesson',
+            'delete_lesson',
+            'publish_lesson',
         ];
 
         foreach ($permissions as $permission) {

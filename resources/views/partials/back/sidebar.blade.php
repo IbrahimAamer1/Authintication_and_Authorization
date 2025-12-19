@@ -98,6 +98,14 @@
                 <div data-i18n="Courses">Courses</div>
             </a>
         </li>
+
+        <!-- Lessons -->
+        <li class="menu-item @yield('lessons_active', '')">
+            <a href="{{ route('back.lessons.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-video"></i>
+                <div data-i18n="Lessons">Lessons</div>
+            </a>
+        </li>
         
     </ul>
 </aside>

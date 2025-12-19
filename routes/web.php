@@ -9,6 +9,7 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\CourseController;
+use App\Http\Controllers\Back\LessonController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -49,6 +50,9 @@ route::prefix('back')->name('back.')->group(function () {
 
     ##-----------------------------------courses routes-----------------------------------##
     route::resource('courses', CourseController::class)->middleware('admin')->names('courses');
+
+    ##-----------------------------------lessons routes-----------------------------------##
+    route::resource('lessons', LessonController::class)->middleware('admin')->names('lessons');
 
     
     require __DIR__.'/adminAuth.php';
