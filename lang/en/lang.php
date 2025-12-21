@@ -126,4 +126,58 @@ return [
     'level' => 'Level',
     'language' => 'Language',
     'duration' => 'Duration',
+
+
+    // Front    
+    'view_details' => 'View Details',
+    'students' => 'Students',
+    'enrolled_students' => 'Enrolled Students',
+    'enrolled_students_count' => 'Enrolled Students Count',
+   
+    'enroll_now' => 'Enroll Now',
+    'login_to_enroll' => 'Login to Enroll',
+    'off' => 'Off',
+    'on' => 'On',
+    'free' => 'Free',
+    'paid' => 'Paid',
+    'beginner' => 'Beginner',
+    'intermediate' => 'Intermediate',
+    'advanced' => 'Advanced',
+    'english' => 'English',
+    'arabic' => 'Arabic',
+    'course_curriculum' => 'Course Curriculum',
+    'course_description' => 'Course Description',
+    'course_instructor' => 'Course Instructor',
+    'course_instructor_name' => 'Course Instructor Name',
+    'course_instructor_email' => 'Course Instructor Email',
+    'course_instructor_phone' => 'Course Instructor Phone',
+    'course_instructor_address' => 'Course Instructor Address',
+    'course_instructor_city' => 'Course Instructor City',
+    'course_instructor_state' => 'Course Instructor State',
+    // Search Courses
+    'search_courses' => 'Search Courses',
+    'search_courses_placeholder' => 'Search Courses',
+    'search_courses_button' => 'Search Courses',
+    'search_courses_button_text' => 'Search Courses',
+
+    // Filters
+    'all_levels' => 'All Levels',
+    'all_prices' => 'All Prices',
+    'latest_courses' => 'Latest Courses',
+    'popular_courses' => 'Popular Courses',
+    'featured_courses' => 'Featured Courses',
+    'free_courses' => 'Free Courses',
+    'paid_courses' => 'Paid Courses',
+    'beginner_courses' => 'Beginner Courses',
+    'intermediate_courses' => 'Intermediate Courses',
+    'advanced_courses' => 'Advanced Courses',
+    'english_courses' => 'English Courses',
+    'arabic_courses' => 'Arabic Courses',
+    
+    'latest' => 'Latest',
+    'popular' => 'Popular',
+    'featured' => 'Featured',
+    'apply_filters' => 'Apply Filters',
+   'clear_filters' => 'Clear Filters',
 ];
+

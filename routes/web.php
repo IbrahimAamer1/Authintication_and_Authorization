@@ -12,6 +12,7 @@ use App\Http\Controllers\Back\CourseController;
 use App\Http\Controllers\Back\LessonController;
 use App\Http\Controllers\Back\EnrollmentController;
 use App\Http\Controllers\Front\EnrollmentController as FrontEnrollmentController;
+use App\Http\Controllers\Front\CourseController as FrontCourseController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -29,6 +30,10 @@ route::prefix('front')->name('front.')->group(function () {
     route::view ('/login', 'front.auth.login')->name('login');
     route::view ('/register', 'front.auth.register')->name('register');
     route::view ('/forget-password', 'front.auth.forget-password')->name('forget-password');
+    
+    ##-----------------------------------courses routes (public)-----------------------------------##
+    route::get('courses', [FrontCourseController::class, 'index'])->name('courses.index');
+    route::get('courses/{course}', [FrontCourseController::class, 'show'])->name('courses.show');
     
     ##-----------------------------------enrollments routes (students)-----------------------------------##
     route::middleware('auth')->group(function () {

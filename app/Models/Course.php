@@ -122,6 +122,16 @@ class Course extends Model
     public function scopeByLevel($query, $level)
     {
         return $query->where('level', $level);
+    }
+
+    public function scopeFree($query)
+    {
+        return $query->where('price', 0);
+    }
+
+    public function scopePaid($query)
+    {
+        return $query->where('price', '>', 0);
     }   
 
 
@@ -160,6 +170,17 @@ class Course extends Model
     {
         // Check if user is not already enrolled and course is published
         return !$this->isEnrolledBy($userId) && $this->status === 'published';
+    }
+
+    // lesson helper methods
+    public function getLessonsCount()
+    {
+        return $this->lessons()->where('is_published', true)->count();
+    }
+
+    public function getPublishedLessons()
+    {
+        return $this->lessons()->where('is_published', true)->orderBy('lesson_order', 'asc')->get();
     }
 
 

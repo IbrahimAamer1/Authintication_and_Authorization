@@ -70,12 +70,30 @@
 
           <ul class="menu-inner py-1">
             <!-- Dashboard -->
-            <li class="menu-item active">
-              <a href="index.html" class="menu-link">
+            <li class="menu-item @yield('home_active', '')">
+              <a href="{{ route('front.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Analytics">Dashboard</div>
+                <div data-i18n="Dashboard">Dashboard</div>
               </a>
             </li>
+
+            <!-- Courses -->
+            <li class="menu-item @yield('courses_active', '')">
+              <a href="{{ route('front.courses.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-book"></i>
+                <div data-i18n="Courses">Courses</div>
+              </a>
+            </li>
+
+            <!-- My Enrollments -->
+            @auth
+            <li class="menu-item @yield('enrollments_active', '')">
+              <a href="{{ route('front.enrollments.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-check"></i>
+                <div data-i18n="My Enrollments">My Enrollments</div>
+              </a>
+            </li>
+            @endauth
 
             <!-- Layouts -->
             <li class="menu-item">
