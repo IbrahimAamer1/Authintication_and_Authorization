@@ -29,6 +29,7 @@ class PermissionSeeder extends Seeder
             'edit_lesson',
             'delete_lesson',
             'publish_lesson',
+            'show_enrollment',
         ];
 
         foreach ($permissions as $permission) {

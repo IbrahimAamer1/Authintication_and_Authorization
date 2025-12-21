@@ -10,6 +10,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\Back\CategoryController;
 use App\Http\Controllers\Back\CourseController;
 use App\Http\Controllers\Back\LessonController;
+use App\Http\Controllers\Back\EnrollmentController;
+use App\Http\Controllers\Front\EnrollmentController as FrontEnrollmentController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,6 +29,13 @@ route::prefix('front')->name('front.')->group(function () {
     route::view ('/login', 'front.auth.login')->name('login');
     route::view ('/register', 'front.auth.register')->name('register');
     route::view ('/forget-password', 'front.auth.forget-password')->name('forget-password');
+    
+    ##-----------------------------------enrollments routes (students)-----------------------------------##
+    route::middleware('auth')->group(function () {
+        route::post('enrollments', [FrontEnrollmentController::class, 'store'])->name('enrollments.store');
+        route::get('enrollments', [FrontEnrollmentController::class, 'index'])->name('enrollments.index');
+        route::put('enrollments/{enrollment}', [FrontEnrollmentController::class, 'update'])->name('enrollments.update');
+    });
 });
 
 require __DIR__.'/auth.php';
@@ -53,6 +62,12 @@ route::prefix('back')->name('back.')->group(function () {
 
     ##-----------------------------------lessons routes-----------------------------------##
     route::resource('lessons', LessonController::class)->middleware('admin')->names('lessons');
+
+    ##-----------------------------------enrollments routes (admin - read only)-----------------------------------##
+    route::middleware('admin')->group(function () {
+        route::get('enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
+        route::get('enrollments/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
+    });
 
     
     require __DIR__.'/adminAuth.php';

@@ -52,6 +52,18 @@ class Course extends Model
         return $this->hasMany(Lesson::class);
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(User::class, 'enrollments')
+            ->withPivot('status', 'progress_percentage', 'enrolled_at', 'completed_at')
+            ->withTimestamps();
+    }
+
    
     // slug options
     public function getSlugOptions(): SlugOptions
@@ -131,6 +143,23 @@ class Course extends Model
         } else {
             return "{$minutes} minutes";
         }
+    }
+
+    // enrollment helper methods
+    public function enrolledStudentsCount()
+    {
+        return $this->enrollments()->where('status', 'enrolled')->count();
+    }
+
+    public function isEnrolledBy($userId)
+    {
+        return $this->enrollments()->where('user_id', $userId)->exists();
+    }
+
+    public function canEnroll($userId)
+    {
+        // Check if user is not already enrolled and course is published
+        return !$this->isEnrolledBy($userId) && $this->status === 'published';
     }
 
 

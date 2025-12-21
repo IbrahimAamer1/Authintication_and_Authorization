@@ -46,5 +46,24 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         $this->notify(new UpdatePasswordNotification($token));
     }
+
+    // relationships
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class, 'enrollments')
+            ->withPivot('status', 'progress_percentage', 'enrolled_at', 'completed_at')
+            ->withTimestamps();
+    }
+
+    // helper methods
+    public function isEnrolledIn($courseId)
+    {
+        return $this->enrollments()->where('course_id', $courseId)->exists();
+    }
 }
 

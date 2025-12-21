@@ -106,6 +106,14 @@
                 <div data-i18n="Lessons">Lessons</div>
             </a>
         </li>
+
+        <!-- Enrollments -->
+        <li class="menu-item @yield('enrollments_active', '')">
+            <a href="{{ route('back.enrollments.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-check"></i>
+                <div data-i18n="Enrollments">Enrollments</div>
+            </a>
+        </li>
         
     </ul>
 </aside>
