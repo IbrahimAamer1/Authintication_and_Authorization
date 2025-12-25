@@ -185,6 +185,81 @@
         </div>
         @endif
 
+        <!-- Reviews Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">{{ __('lang.reviews_and_ratings') ?? 'Reviews & Ratings' }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <!-- Rating Summary -->
+                        <div class="row mb-4">
+                            <div class="col-md-4 text-center mb-3 mb-md-0">
+                                <div class="display-4 fw-bold text-primary">{{ number_format($averageRating ?? 0, 1) }}</div>
+                                <div class="mb-2">
+                                    <x-star-rating :rating="$averageRating ?? 0" :size="'lg'" />
+                                </div>
+                                <p class="text-muted mb-0">
+                                    {{ $reviewsCount ?? 0 }} {{ __('lang.reviews') ?? 'reviews' }}
+                                </p>
+                            </div>
+                            <div class="col-md-8">
+                                @if(isset($ratingDistribution))
+                                    <div class="rating-distribution">
+                                        @for($i = 5; $i >= 1; $i--)
+                                            <div class="d-flex align-items-center mb-2">
+                                                <div class="me-2" style="width: 60px;">
+                                                    <small>{{ $i }} <i class="bx bxs-star text-warning"></i></small>
+                                                </div>
+                                                <div class="flex-grow-1 me-2">
+                                                    <div class="progress" style="height: 20px;">
+                                                        @php
+                                                            $percentage = $reviewsCount > 0 ? ($ratingDistribution[$i] / $reviewsCount) * 100 : 0;
+                                                        @endphp
+                                                        <div class="progress-bar bg-warning" role="progressbar" 
+                                                             style="width: {{ $percentage }}%"
+                                                             aria-valuenow="{{ $percentage }}" 
+                                                             aria-valuemin="0" 
+                                                             aria-valuemax="100"></div>
+                                                    </div>
+                                                </div>
+                                                <div style="width: 40px; text-align: right;">
+                                                    <small class="text-muted">{{ $ratingDistribution[$i] ?? 0 }}</small>
+                                                </div>
+                                            </div>
+                                        @endfor
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+
+                        <!-- Add Review Form (if user is enrolled and hasn't reviewed) -->
+                        @auth
+                            @if($isEnrolled && !$userReview)
+                                <div id="add-review-section">
+                                    <x-forms.review-form :course="$course" />
+                                </div>
+                            @endif
+
+                            <!-- Edit Review Form (if user has existing review) -->
+                            @if($isEnrolled && $userReview)
+                                <div id="edit-review-section">
+                                    <x-forms.review-form :course="$course" :review="$userReview" />
+                                </div>
+                            @endif
+                        @endauth
+
+                        <!-- Reviews List -->
+                        <div id="reviews-list-section">
+                            <h5 class="mb-3">{{ __('lang.reviews') ?? 'Reviews' }}</h5>
+                            @include('front.courses.partials.reviews-list', ['reviews' => $reviews ?? null, 'course' => $course])
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Related Courses -->
         @if($relatedCourses && $relatedCourses->count() > 0)
         <div class="row">

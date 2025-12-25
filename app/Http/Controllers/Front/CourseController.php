@@ -85,6 +85,24 @@ class CourseController extends Controller
             $query->published()->orderBy('lesson_order', 'asc');
         }]);
 
+        // Load reviews with user relationship (paginated, 10 per page)
+        $reviews = $course->reviews()
+            ->approved()
+            ->with('user')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // Calculate rating statistics
+        $averageRating = $course->getAverageRating();
+        $reviewsCount = $course->getReviewsCount();
+        $ratingDistribution = $course->getRatingDistribution();
+
+        // Get user's review if authenticated and enrolled
+        $userReview = null;
+        if (auth()->check()) {
+            $userReview = $course->getUserReview(auth()->id());
+        }
+
         // Get related courses (same category, exclude current course)
         $relatedCourses = Course::published()
             ->where('category_id', $course->category_id)

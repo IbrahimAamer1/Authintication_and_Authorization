@@ -95,10 +95,23 @@ class LessonController extends Controller
         return \get_defined_vars();
     }
 
-    public function create()
+    public function create(Request $request)
     {
         $instructorId = Auth::guard('admin')->id();
         $courses = Course::where('instructor_id', $instructorId)->get();
+        
+        // Pre-select course if course_id is provided in query
+        $selectedCourseId = $request->get('course_id');
+        if ($selectedCourseId) {
+            // Verify course belongs to instructor
+            $course = Course::find($selectedCourseId);
+            if ($course && $course->instructor_id === $instructorId) {
+                // Course is valid, will be pre-selected in form
+            } else {
+                $selectedCourseId = null;
+            }
+        }
+        
         return view(self::DIRECTORY . ".create", get_defined_vars());
     }
 

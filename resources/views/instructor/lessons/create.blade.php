@@ -16,7 +16,7 @@
             'name' => 'course_id',
             'label' => __('lang.course') ?? 'Course',
             'options' => $courses->pluck('title', 'id')->toArray(),
-            'value' => old('course_id'),
+            'value' => old('course_id', $selectedCourseId ?? null),
             'required' => true,
             'placeholder' => __('lang.select_course') ?? 'Select Course',
             'class' => 'col-12 col-md-6'

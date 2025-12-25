@@ -112,6 +112,112 @@
         </div>
     </div>
 
+    <!-- Course Lessons -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0">
+                        {{ __('lang.course_lessons') ?? 'Course Lessons' }} 
+                        <span class="badge bg-label-primary">({{ $course->lessons->count() }})</span>
+                    </h5>
+                    <a href="{{ route('instructor.lessons.create') }}?course_id={{ $course->id }}" class="btn btn-primary btn-sm">
+                        <i class="bx bx-plus-circle"></i> {{ __('lang.add_new_lesson') ?? 'Add New Lesson' }}
+                    </a>
+                </div>
+                <div class="card-body">
+                    @if($course->lessons && $course->lessons->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th width="5%">#</th>
+                                        <th>{{ __('lang.lesson_order') ?? 'Order' }}</th>
+                                        <th>{{ __('lang.title') ?? 'Title' }}</th>
+                                        <th>{{ __('lang.video') ?? 'Video' }}</th>
+                                        <th>{{ __('lang.type') ?? 'Type' }}</th>
+                                        <th>{{ __('lang.status') ?? 'Status' }}</th>
+                                        <th width="15%">{{ __('lang.actions') ?? 'Actions' }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($course->lessons as $lesson)
+                                        <tr>
+                                            <td>{{ $loop->iteration }}</td>
+                                            <td>
+                                                <span class="badge bg-label-secondary">{{ $lesson->lesson_order }}</span>
+                                            </td>
+                                            <td>
+                                                <div>
+                                                    <div class="fw-semibold">{{ $lesson->title }}</div>
+                                                    @if($lesson->description)
+                                                        <small class="text-muted">{{ Str::limit($lesson->description, 50) }}</small>
+                                                    @endif
+                                                </div>
+                                            </td>
+                                            <td>
+                                                @if($lesson->video_file)
+                                                    <span class="badge bg-label-success">
+                                                        <i class="bx bx-video"></i> {{ __('lang.has_video') ?? 'Has Video' }}
+                                                    </span>
+                                                @else
+                                                    <span class="badge bg-label-secondary">{{ __('lang.no_video') ?? 'No Video' }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($lesson->is_free)
+                                                    <span class="badge bg-label-success">{{ __('lang.free') ?? 'Free' }}</span>
+                                                @else
+                                                    <span class="badge bg-label-warning">{{ __('lang.paid') ?? 'Paid' }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if($lesson->is_published)
+                                                    <span class="badge bg-label-success">{{ __('lang.published') ?? 'Published' }}</span>
+                                                @else
+                                                    <span class="badge bg-label-warning">{{ __('lang.draft') ?? 'Draft' }}</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <div class="d-flex gap-1">
+                                                    <a href="{{ route('instructor.lessons.show', $lesson) }}" 
+                                                       class="btn btn-sm btn-outline-info" 
+                                                       title="{{ __('lang.view') ?? 'View' }}">
+                                                        <i class="bx bx-show"></i>
+                                                    </a>
+                                                    <a href="{{ route('instructor.lessons.edit', $lesson) }}" 
+                                                       class="btn btn-sm btn-outline-primary" 
+                                                       title="{{ __('lang.edit') ?? 'Edit' }}">
+                                                        <i class="bx bx-edit"></i>
+                                                    </a>
+                                                    <button type="button" 
+                                                            class="btn btn-sm btn-outline-danger delete-btn" 
+                                                            data-url="{{ route('instructor.lessons.destroy', $lesson) }}"
+                                                            data-name="{{ $lesson->title }}"
+                                                            title="{{ __('lang.delete') ?? 'Delete' }}">
+                                                        <i class="bx bx-trash"></i>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @else
+                        <div class="text-center py-4">
+                            <i class="bx bx-video display-4 text-muted"></i>
+                            <p class="text-muted mt-2">{{ __('lang.no_lessons_available') ?? 'No lessons available for this course.' }}</p>
+                            <a href="{{ route('instructor.lessons.create') }}?course_id={{ $course->id }}" class="btn btn-primary mt-2">
+                                <i class="bx bx-plus-circle"></i> {{ __('lang.add_first_lesson') ?? 'Add First Lesson' }}
+                            </a>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Students Enrolled -->
     @if($course->enrollments && $course->enrollments->count() > 0)
     <div class="row mt-4">
@@ -186,3 +292,42 @@
     </div>
     @endif
 @endsection
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        // Delete lesson functionality
+        $(document).on('click', '.delete-btn', function(e) {
+            e.preventDefault();
+            let url = $(this).data('url');
+            let name = $(this).data('name');
+            
+            if (!confirm('{{ __("lang.are_you_sure_delete") ?? "Are you sure you want to delete" }} "' + name + '"?')) {
+                return;
+            }
+
+            $.ajax({
+                url: url,
+                method: 'DELETE',
+                data: {
+                    _token: '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.success) {
+                        location.reload();
+                    } else {
+                        alert('{{ __("lang.error_occurred") ?? "An error occurred" }}');
+                    }
+                },
+                error: function(xhr) {
+                    let errorMessage = '{{ __("lang.error_occurred") ?? "An error occurred" }}';
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        errorMessage = xhr.responseJSON.message;
+                    }
+                    alert(errorMessage);
+                }
+            });
+        });
+    });
+</script>
+@endpush

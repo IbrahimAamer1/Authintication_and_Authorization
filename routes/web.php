@@ -14,6 +14,7 @@ use App\Http\Controllers\Back\EnrollmentController;
 use App\Http\Controllers\Front\EnrollmentController as FrontEnrollmentController;
 use App\Http\Controllers\Front\CourseController as FrontCourseController;
 use App\Http\Controllers\Front\LessonController as FrontLessonController;
+use App\Http\Controllers\Front\ReviewController as FrontReviewController;
 use App\Http\Controllers\Instructor\DashboardController;
 use App\Http\Controllers\Instructor\CourseController as InstructorCourseController;
 use App\Http\Controllers\Instructor\LessonController as InstructorLessonController;
@@ -51,6 +52,11 @@ route::prefix('front')->name('front.')->group(function () {
         
         // Mark lesson as watched (AJAX)
         route::post('lessons/{lesson}/mark-watched', [FrontLessonController::class, 'markAsWatched'])->name('lessons.mark-watched');
+        
+        // Reviews routes
+        route::post('courses/{course}/reviews', [FrontReviewController::class, 'store'])->name('reviews.store');
+        route::put('courses/{course}/reviews/{review}', [FrontReviewController::class, 'update'])->name('reviews.update');
+        route::delete('courses/{course}/reviews/{review}', [FrontReviewController::class, 'destroy'])->name('reviews.destroy');
     });
 });
 

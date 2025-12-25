@@ -48,6 +48,27 @@
         </div>
     </div>
 
+    <!-- Rating Stats Cards -->
+    <div class="row mb-4">
+        <div class="col-lg-6 col-md-6 mb-4">
+            <x-cards.stats-card 
+                title="{{ __('lang.average_rating') ?? 'Average Rating' }}"
+                :value="number_format($averageRating ?? 0, 1)"
+                icon="bx-star"
+                color="warning"
+                :subtitle="($totalReviews ?? 0) . ' ' . (__('lang.reviews') ?? 'reviews')"
+            />
+        </div>
+        <div class="col-lg-6 col-md-6 mb-4">
+            <x-cards.stats-card 
+                title="{{ __('lang.total_reviews') ?? 'Total Reviews' }}"
+                :value="$totalReviews ?? 0"
+                icon="bx-message-detail"
+                color="info"
+            />
+        </div>
+    </div>
+
     <!-- Quick Actions -->
     <div class="row mb-4">
         <div class="col-12">

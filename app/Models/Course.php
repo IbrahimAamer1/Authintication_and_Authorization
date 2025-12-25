@@ -64,6 +64,11 @@ class Course extends Model
             ->withTimestamps();
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
    
     // slug options
     public function getSlugOptions(): SlugOptions
@@ -228,7 +233,88 @@ class Course extends Model
             ->count();
     }
 
+    // review helper methods
+    /**
+     * Get the average rating for this course.
+     * 
+     * This method calculates the average rating from all approved reviews.
+     * Returns a float value between 1 and 5, or 0 if no reviews exist.
+     * 
+     * @return float The average rating (rounded to 2 decimal places)
+     */
+    public function getAverageRating()
+    {
+        $avgRating = $this->reviews()
+            ->approved()
+            ->avg('rating');
+        
+        return $avgRating ? round($avgRating, 2) : 0;
+    }
 
+    /**
+     * Get the total count of approved reviews for this course.
+     * 
+     * @return int The number of approved reviews
+     */
+    public function getReviewsCount()
+    {
+        return $this->reviews()
+            ->approved()
+            ->count();
+    }
 
+    /**
+     * Get the rating distribution for this course.
+     * 
+     * Returns an array with counts for each rating (1-5 stars).
+     * Example: [1 => 0, 2 => 2, 3 => 5, 4 => 10, 5 => 8]
+     * 
+     * @return array Array with rating as key and count as value
+     */
+    public function getRatingDistribution()
+    {
+        $distribution = [];
+        for ($i = 1; $i <= 5; $i++) {
+            $distribution[$i] = $this->reviews()
+                ->approved()
+                ->where('rating', $i)
+                ->count();
+        }
+        return $distribution;
+    }
+
+    /**
+     * Check if a user has reviewed this course.
+     * 
+     * @param int|null $userId The user ID to check (null if not authenticated)
+     * @return bool True if user has reviewed, false otherwise
+     */
+    public function hasUserReviewed($userId)
+    {
+        if (!$userId) {
+            return false;
+        }
+
+        return $this->reviews()
+            ->where('user_id', $userId)
+            ->exists();
+    }
+
+    /**
+     * Get the review written by a specific user for this course.
+     * 
+     * @param int|null $userId The user ID to check (null if not authenticated)
+     * @return Review|null The review if exists, null otherwise
+     */
+    public function getUserReview($userId)
+    {
+        if (!$userId) {
+            return null;
+        }
+
+        return $this->reviews()
+            ->where('user_id', $userId)
+            ->first();
+    }
 
 }

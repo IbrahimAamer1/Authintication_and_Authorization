@@ -60,6 +60,11 @@ class User extends Authenticatable implements MustVerifyEmail
             ->withTimestamps();
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     // helper methods
     public function isEnrolledIn($courseId)
     {

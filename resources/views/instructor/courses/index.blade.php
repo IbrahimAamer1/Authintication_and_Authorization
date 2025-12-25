@@ -25,6 +25,7 @@
                             <th class="text-primary" width="5%">#</th>
                             <th class="text-primary">{{ __('lang.image') ?? 'Image' }}</th>
                             <th class="text-primary">{{ __('lang.title') ?? 'Title' }}</th>
+                            <th class="text-primary">{{ __('lang.lessons') ?? 'Lessons' }}</th>
                             <th class="text-primary">{{ __('lang.category') ?? 'Category' }}</th>
                             <th class="text-primary">{{ __('lang.instructor') ?? 'Instructor' }}</th>
                             <th class="text-primary">{{ __('lang.level') ?? 'Level' }}</th>
@@ -46,6 +47,11 @@
                                         @endif
                                     </td>
                                     <td>{{ $course->title }}</td>
+                                    <td>
+                                        <span class="badge bg-label-primary">
+                                            <i class="bx bx-video"></i> {{ $course->lessons_count ?? 0 }}
+                                        </span>
+                                    </td>
                                     <td>
                                         @if($course->category)
                                             <span class="badge bg-label-info">{{ $course->category->name }}</span>
@@ -103,7 +109,7 @@
                             @endforeach
                         @else
                             <tr>
-                                <td colspan="9" class="text-center">
+                                <td colspan="10" class="text-center">
                                     <x-empty-state message="{{ __('lang.no_data_available') ?? 'No data available' }}" />
                                 </td>
                             </tr>

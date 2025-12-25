@@ -51,6 +51,7 @@ class CourseController extends Controller
         $level = $data['level'] ?? null;
 
         $data = Course::with(['category', 'instructor'])
+            ->withCount('lessons') // Count lessons for each course
             ->where('instructor_id', $instructorId) // Only instructor's courses
             ->when($status !== null, function ($q) use ($status) {
                 $q->where('status', $status);
@@ -102,7 +103,9 @@ class CourseController extends Controller
     public function show(Course $course)
     {
         $this->verifyOwnership($course);
-        $course->load(['category', 'instructor', 'lessons', 'enrollments.user']);
+        $course->load(['category', 'instructor', 'lessons' => function ($query) {
+            $query->orderBy('lesson_order', 'asc');
+        }, 'enrollments.user']);
         return view(self::DIRECTORY . ".show", \get_defined_vars());
     }
 
