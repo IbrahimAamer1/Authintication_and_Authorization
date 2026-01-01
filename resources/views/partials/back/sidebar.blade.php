@@ -91,27 +91,19 @@
             </a>
         </li>
 
-        <!-- Courses -->
-        <li class="menu-item @yield('courses_active', '')">
-            <a href="{{ route('back.courses.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-book"></i>
-                <div data-i18n="Courses">Courses</div>
-            </a>
-        </li>
-
-        <!-- Lessons -->
-        <li class="menu-item @yield('lessons_active', '')">
-            <a href="{{ route('back.lessons.index') }}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-video"></i>
-                <div data-i18n="Lessons">Lessons</div>
-            </a>
-        </li>
-
         <!-- Enrollments -->
         <li class="menu-item @yield('enrollments_active', '')">
             <a href="{{ route('back.enrollments.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-user-check"></i>
                 <div data-i18n="Enrollments">Enrollments</div>
+            </a>
+        </li>
+
+        <!-- Instructors -->
+        <li class="menu-item @yield('instructors_active', '')">
+            <a href="{{ route('back.instructors.index') }}" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-user-circle"></i>
+                <div data-i18n="Instructors">Instructors</div>
             </a>
         </li>
         

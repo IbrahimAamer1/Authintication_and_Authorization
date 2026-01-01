@@ -234,7 +234,26 @@ return [
    'forgot_password' => 'Forgot Password',
    'profile_picture' => 'Profile Picture',
    'avatar_hint' => 'Max size: 2MB. Supported formats: JPG, PNG, GIF',
+   'my_courses' => 'My Courses',
+   'dashboard' => 'Dashboard',
+    'average_rating' => 'Average Rating',
+    'total_reviews' => 'Total Reviews',
+    'total_students' => 'Total Students',
+    'total_enrollments' => 'Total Enrollments',
+    'total_lessons' => 'Total Lessons',
+    'create_new_course' => 'Create New Course',
+    'view_all_courses' => 'View All Courses',
+    'view_all_lessons' => 'View All Lessons',
+    'view_all_students' => 'View All Students',
+    'view_all_enrollments' => 'View All Enrollments',
+    'view_all_reviews' => 'View All Reviews',
+    'view_all_ratings' => 'View All Ratings',
+
+    'view_all' => 'View All',
+    'draft' => 'Draft',
    
-   
+   'recent_courses' => 'Recent Courses',
+
+
 ];
 

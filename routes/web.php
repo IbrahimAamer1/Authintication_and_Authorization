@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FrontHomeController;
 use App\Http\Controllers\Back\BackHomeController;
@@ -8,9 +7,9 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Back\CategoryController;
-use App\Http\Controllers\Back\CourseController;
-use App\Http\Controllers\Back\LessonController;
 use App\Http\Controllers\Back\EnrollmentController;
+use App\Http\Controllers\Back\InstructorController;
+use App\Http\Controllers\Back\ProfileController;
 use App\Http\Controllers\Front\EnrollmentController as FrontEnrollmentController;
 use App\Http\Controllers\Front\CourseController as FrontCourseController;
 use App\Http\Controllers\Front\LessonController as FrontLessonController;
@@ -87,16 +86,22 @@ route::prefix('back')->name('back.')->group(function () {
     ##-----------------------------------categories routes-----------------------------------##
     route::resource('categories', CategoryController::class)->middleware('admin')->names('categories');
 
-    ##-----------------------------------courses routes-----------------------------------##
-    route::resource('courses', CourseController::class)->middleware('admin')->names('courses');
-
-    ##-----------------------------------lessons routes-----------------------------------##
-    route::resource('lessons', LessonController::class)->middleware('admin')->names('lessons');
-
     ##-----------------------------------enrollments routes (admin - read only)-----------------------------------##
     route::middleware('admin')->group(function () {
         route::get('enrollments', [EnrollmentController::class, 'index'])->name('enrollments.index');
         route::get('enrollments/{enrollment}', [EnrollmentController::class, 'show'])->name('enrollments.show');
+    });
+
+    ##-----------------------------------instructors routes (admin - read only)-----------------------------------##
+    route::middleware('admin')->group(function () {
+        route::get('instructors', [InstructorController::class, 'index'])->name('instructors.index');
+        route::get('instructors/{instructor}', [InstructorController::class, 'show'])->name('instructors.show');
+
+        ##-----------------------------------profile routes-----------------------------------##
+        route::get('profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+        route::put('profile/password', [ProfileController::class, 'updatePassword'])->name('profile.password.update');
+        route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     });
 
     
