@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Front;
 use App\Http\Controllers\Controller;
 use App\Models\Course;
 use App\Models\Category;
+use App\Helpers\CacheHelper;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class CourseController extends Controller
 {
@@ -13,8 +15,25 @@ class CourseController extends Controller
 
     public function index(Request $request)
     {
-        $data = $this->getData($request->all());
-        $categories = Category::active()->get();
+        // Cache categories (rarely changes, longer TTL)
+        $categories = Cache::remember(
+            CacheHelper::CATEGORIES_ACTIVE,
+            CacheHelper::TTL_VERY_LONG,
+            function () {
+                return Category::active()->get();
+            }
+        );
+        
+        // Cache courses list based on filters
+        $cacheKey = CacheHelper::coursesListKey($request->all());
+        $data = Cache::remember(
+            $cacheKey,
+            CacheHelper::TTL_MEDIUM,
+            function () use ($request) {
+                return $this->getData($request->all());
+            }
+        );
+        
         $courses = $data['courses'];
         return view(self::DIRECTORY . ".index", \get_defined_vars())
             ->with('directory', self::DIRECTORY);
@@ -81,21 +100,36 @@ class CourseController extends Controller
             abort(404);
         }
 
+        // Load course relationships
         $course->load(['category', 'instructor', 'lessons' => function ($query) {
             $query->published()->orderBy('lesson_order', 'asc');
         }]);
 
+        // Cache course statistics (rating, reviews count, distribution)
+        $cacheKey = CacheHelper::courseDetailsKey($course->id) . '_stats';
+        $courseStats = Cache::remember(
+            $cacheKey,
+            CacheHelper::TTL_MEDIUM,
+            function () use ($course) {
+                return [
+                    'averageRating' => $course->getAverageRating(),
+                    'reviewsCount' => $course->getReviewsCount(),
+                    'ratingDistribution' => $course->getRatingDistribution(),
+                ];
+            }
+        );
+        
+        $averageRating = $courseStats['averageRating'];
+        $reviewsCount = $courseStats['reviewsCount'];
+        $ratingDistribution = $courseStats['ratingDistribution'];
+
         // Load reviews with user relationship (paginated, 10 per page)
+        // Reviews are not cached as they change frequently
         $reviews = $course->reviews()
             ->approved()
             ->with('user')
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
-        // Calculate rating statistics
-        $averageRating = $course->getAverageRating();
-        $reviewsCount = $course->getReviewsCount();
-        $ratingDistribution = $course->getRatingDistribution();
 
         // Get user's review if authenticated and enrolled
         $userReview = null;
@@ -103,13 +137,20 @@ class CourseController extends Controller
             $userReview = $course->getUserReview(auth()->id());
         }
 
-        // Get related courses (same category, exclude current course)
-        $relatedCourses = Course::published()
-            ->where('category_id', $course->category_id)
-            ->where('id', '!=', $course->id)
-            ->with(['category', 'instructor'])
-            ->limit(4)
-            ->get();
+        // Cache related courses
+        $relatedCacheKey = CacheHelper::relatedCoursesKey($course->id);
+        $relatedCourses = Cache::remember(
+            $relatedCacheKey,
+            CacheHelper::TTL_LONG,
+            function () use ($course) {
+                return Course::published()
+                    ->where('category_id', $course->category_id)
+                    ->where('id', '!=', $course->id)
+                    ->with(['category', 'instructor'])
+                    ->limit(4)
+                    ->get();
+            }
+        );
 
         // Check if user is enrolled (if authenticated)
         $isEnrolled = false;

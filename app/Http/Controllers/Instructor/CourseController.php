@@ -7,6 +7,7 @@ use App\Models\Course;
 use App\Models\Category;
 use App\Http\Requests\StoreCourseRequest;
 use App\Http\Requests\UpdateCourseRequest;
+use App\Helpers\CacheHelper;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
@@ -96,7 +97,11 @@ class CourseController extends Controller
             $data['image'] = $request->file('image')->storeAs('courses', $imagename, 'public');
         }
         
-        Course::create($data);
+        $course = Course::create($data);
+        
+        // Clear cache after creating new course
+        CacheHelper::clearCoursesListCache();
+        
         return redirect()->route(self::DIRECTORY . '.index')->with('success', __('messages.sent') ?? 'Course created successfully');
     }
 
@@ -134,6 +139,9 @@ class CourseController extends Controller
         }
 
         $course->update($data);
+        
+        // Clear cache after updating course
+        CacheHelper::clearCourseCache($course->id, $course->category_id);
 
         return response()->json([
             'success' => __('messages.updated') ?? 'Course updated successfully'
@@ -148,7 +156,14 @@ class CourseController extends Controller
             Storage::disk('public')->delete($course->image);
         }
 
+        $categoryId = $course->category_id;
+        $courseId = $course->id;
+        
         $course->delete();
+        
+        // Clear cache after deleting course
+        CacheHelper::clearCourseCache($courseId, $categoryId);
+        CacheHelper::clearCoursesListCache();
 
         return response()->json([
             'success' => __('messages.deleted') ?? 'Course deleted successfully'
