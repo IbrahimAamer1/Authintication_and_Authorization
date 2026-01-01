@@ -1,81 +1,53 @@
-# Authentication and Authorization - Learning Platform
+# Redis Caching Setup
 
-A Laravel-based learning platform with course management, user authentication, and Redis caching.
+This guide explains how to set up and use Redis caching in the Laravel application.
 
-## Features
+## Overview
 
-- User authentication and authorization
-- Course management system
-- Instructor dashboard
-- Student enrollment system
-- Lesson progress tracking
-- Review and rating system
-- Redis caching for improved performance
+This part integrates Redis as a caching layer for API responses and database queries in the Laravel application.
+The goal is to reduce database load and improve performance by serving cached data when available.
+
+🚀 **Features**
+- Caches API responses and database queries using Redis
+- Reuses cached data if available instead of hitting the database
+- Supports dynamic cache keys based on request parameters and filters
+- Automatic cache invalidation on data updates
+- Easy to integrate with existing controllers using CacheHelper
+- Configurable TTL (Time To Live) for different data types
+- Seamless integration with Docker for development and production
 
 ## Prerequisites
 
-- PHP ^8.1
-- Composer
-- MySQL
-- Docker Desktop (for Redis)
+- Docker Desktop installed and running
+- Docker Compose (included with Docker Desktop)
 
-## Installation
+## Quick Start
 
-1. Clone the repository:
-```bash
-git clone https://github.com/IbrahimAamer1/Learn-Hub.git
-cd Authentication-and-Authorization
-```
+### 1. Start Redis Container
 
-2. Install dependencies:
-```bash
-composer install
-npm install
-```
-
-3. Copy environment file:
-```bash
-cp .env.example .env
-```
-
-4. Generate application key:
-```bash
-php artisan key:generate
-```
-
-5. Run migrations:
-```bash
-php artisan migrate
-```
-
-6. Start Redis (see Docker Setup below)
-
-## Docker Redis Setup
-
-This project uses Docker to run Redis for caching. Redis is configured as a separate service that can be accessed by the Laravel application.
-
-### Quick Start
-
-1. Start Redis Container:
 ```bash
 docker-compose up -d redis
 ```
 
-2. Verify Redis is Running:
+### 2. Verify Redis is Running
+
 ```bash
 docker-compose ps
 ```
 
 You should see the `laravel-redis` container running.
 
-3. Test Redis Connection:
+### 3. Test Redis Connection
+
 ```bash
 docker exec -it laravel-redis redis-cli ping
 ```
 
 Expected output: `PONG`
 
-### Configuration
+## Configuration
+
+### Environment Variables
 
 Make sure your `.env` file has the following Redis configuration:
 
@@ -87,6 +59,8 @@ REDIS_PORT=6379
 REDIS_DB=0
 REDIS_CACHE_DB=1
 ```
+
+### Laravel Configuration
 
 After updating `.env`, clear and rebuild config cache:
 
@@ -236,7 +210,3 @@ services:
 - The container automatically restarts unless stopped manually
 - Health checks ensure Redis is running correctly
 - Network `laravel-network` is set up for future services
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
