@@ -16,6 +16,7 @@ class Enrollment extends Model
         'progress_percentage' => 'integer',
         'enrolled_at' => 'datetime',
         'completed_at' => 'datetime',
+        'congratulation_sent_at' => 'datetime',
     ];
 
     // relationships
